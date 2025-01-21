@@ -1,6 +1,7 @@
 import { useContext } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../providers/AuthProvider';
+import Swal from 'sweetalert2';
 
 
 
@@ -22,6 +23,11 @@ const Login = () => {
             const user = result.user;
             console.log(user);
         })
+        Swal.fire({
+            title: "Success!",
+            text: "You have signed in successfully!",
+            icon: "success",
+          })
     };
 
     return (

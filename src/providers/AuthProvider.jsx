@@ -8,41 +8,43 @@ import { app } from "../firebase/firebase.init";
 //     updateProfile,
 // } from "firebase/auth";
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const AuthContext = createContext(null);
 const auth = getAuth(app);
 
 
+// eslint-disable-next-line react/prop-types
 const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true); 
+    const [loading, setLoading] = useState(true);
     // Default to true during initial auth state check
 
 
     const createUser = async (email, password) => {
-            setLoading(true);
-            return createUserWithEmailAndPassword(auth, email, password);
-            
-        };
+        setLoading(true);
+        return createUserWithEmailAndPassword(auth, email, password);
 
-        const signIn = (email, password)=>{
-            setLoading(true);
-            return signInWithEmailAndPassword(email, password)
-        }
+    };
 
-        const logOut =()=>{
-            setLoading(true);
-            return signOut(auth);
-        }
+    const signIn = (email, password) => {
+        setLoading(true);
+        return signInWithEmailAndPassword(auth,email, password)
+    }
 
-    useEffect(()=>{
-        const unsubscribe = onAuthStateChanged(auth, (currentUser) =>{
+    const logOut = () => {
+        setLoading(true);
+        return signOut(auth);
+    }
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser);
-            console.log('cussrentUser',currentUser);
+            console.log('cussrentUser', currentUser);
             setLoading(false)
         });
         return unsubscribe();
-        
-    },[])
+
+    }, [])
 
     // useEffect(() => {
     //     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -126,7 +128,7 @@ const AuthProvider = ({ children }) => {
 
     return (
         <AuthContext.Provider value={userInfo}>
-            {!loading && children}
+            {children}
         </AuthContext.Provider>
     );
 };
