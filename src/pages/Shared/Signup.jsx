@@ -1,68 +1,85 @@
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../providers/AuthProvider";
-
-
+import Swal from "sweetalert2";
 
 const Signup = () => {
   const [photo, setPhoto] = useState("");
+  const navigate = useNavigate();
+  const imgbbAPIKey = "4b1ab40c84363ea80473bd98398b4614"; // Replace with your actual API key
 
-  const { register, handleSubmit, formState: { errors }, } = useForm()
-  const { createUser } = useContext(AuthContext);
+  const {
+    register,
+    reset,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const { createUser, updateUserProfile } = useContext(AuthContext);
 
+  const handleImageUpload = async (file) => {
+    const formData = new FormData();
+    formData.append("image", file);
 
-  const onSubmit = (data) => {
-    console.log(data)
-    createUser(data.email, data.password)
-      .then(result => {
-        const loggedUser = result.user;
-        console.log(loggedUser);
+    try {
+      const response = await fetch(
+        `https://api.imgbb.com/1/upload?key=${imgbbAPIKey}`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+      const data = await response.json();
+      if (data.success) {
+        return data.data.url; // Return the image URL
+      } else {
+        Swal.fire("Error", "Image upload failed. Please try again.", "error");
+        return null;
       }
-      )
-  }
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      Swal.fire("Error", "An error occurred during image upload.", "error");
+      return null;
+    }
+  };
 
-  // const handleImageUpload = async (event) => {
-  //   const file = event.target.files[0];
-  //   const formData = new FormData();
-  //   formData.append("image", file);
+  const onSubmit = async (data) => {
+    if (!photo) {
+      Swal.fire("Warning", "Please upload a profile photo.", "warning");
+      return;
+    }
 
-  //   try {
-  //     const response = await fetch("https://api.imgbb.com/1/upload?key=4b1ab40c84363ea80473bd98398b4614", {
-  //       method: "POST",
-  //       body: formData,
-  //     });
-  //     const data = await response.json();
-  //     if (data.success) {
-  //       setPhoto(data.data.url);
-  //     } else {
-  //       alert("Image upload failed. Please try again.");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error uploading image:", error);
-  //     alert("An error occurred during image upload.");
-  //   }
-  // };
+    try {
+      const user = await createUser(data.email, data.password);
+      console.log(user);
 
-  // const handleSignUp = async (event) => {
-  //   event.preventDefault();
+      await updateUserProfile(data.name, photo);
+      console.log("User profile updated");
 
-  //   const form = event.target;
-  //   const name = form.name.value.trim();
-  //   const email = form.email.value.trim();
-  //   const role = form.role.value;
-  //   const bankAccountNo = form.bank_account_no.value.trim();
-  //   const salary = form.salary.value.trim();
-  //   const designation = form.designation.value.trim();
-  //   const password = form.password.value.trim();
+      reset();
 
-  //   if (!photo) {
-  //     alert("Please upload a photo.");
-  //     return;
-  //   }
+      Swal.fire({
+        title: "Success!",
+        text: "Account created successfully!",
+        icon: "success",
+      }).then(() => {
+        navigate("/"); // Redirect to home
+      });
+    } catch (error) {
+      console.error("Error during signup:", error);
+      Swal.fire("Error", "Failed to create account. Please try again.", "error");
+    }
+  };
 
-  //   console.log({ name, email, role, bankAccountNo, salary, designation, photo, password });
-  // };
+  const handleFileChange = async (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const imageUrl = await handleImageUpload(file);
+      if (imageUrl) {
+        setPhoto(imageUrl);
+      }
+    }
+  };
 
   return (
     <div className="hero bg-base-200 min-h-screen">
@@ -77,10 +94,11 @@ const Signup = () => {
                 {...register("name", { required: true })}
                 type="text"
                 placeholder="Full Name"
-                name="name"
                 className="input input-bordered"
               />
-              {errors.name && <span className="text-red-400">This field is required</span>}
+              {errors.name && (
+                <span className="text-red-400">This field is required</span>
+              )}
             </div>
 
             <div className="form-control">
@@ -88,26 +106,33 @@ const Signup = () => {
                 <span className="label-text">Email</span>
               </label>
               <input
-                {...register("email")}
+                {...register("email", { required: true })}
                 type="email"
-                placeholder="email"
-                name="email"
+                placeholder="Email"
                 className="input input-bordered"
-                required
               />
+              {errors.email && (
+                <span className="text-red-400">This field is required</span>
+              )}
             </div>
 
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Role</span>
               </label>
-              <select {...register("role")} name="role" className="select select-bordered" required>
+              <select
+                {...register("role", { required: true })}
+                className="select select-bordered"
+              >
                 <option value="" disabled selected>
                   Select Role
                 </option>
                 <option value="HR">HR</option>
                 <option value="Employee">Employee</option>
               </select>
+              {errors.role && (
+                <span className="text-red-400">This field is required</span>
+              )}
             </div>
 
             <div className="form-control">
@@ -115,13 +140,14 @@ const Signup = () => {
                 <span className="label-text">Bank Account No.</span>
               </label>
               <input
-                {...register("bank_account_no")}
+                {...register("bank_account_no", { required: true })}
                 type="text"
                 placeholder="Bank Account Number"
-                name="bank_account_no"
                 className="input input-bordered"
-                required
               />
+              {errors.bank_account_no && (
+                <span className="text-red-400">This field is required</span>
+              )}
             </div>
 
             <div className="form-control">
@@ -129,13 +155,14 @@ const Signup = () => {
                 <span className="label-text">Salary</span>
               </label>
               <input
-                {...register("salary")}
+                {...register("salary", { required: true })}
                 type="number"
                 placeholder="Salary"
-                name="salary"
                 className="input input-bordered"
-                required
               />
+              {errors.salary && (
+                <span className="text-red-400">This field is required</span>
+              )}
             </div>
 
             <div className="form-control">
@@ -143,27 +170,30 @@ const Signup = () => {
                 <span className="label-text">Designation</span>
               </label>
               <input
-                {...register("designation")}
+                {...register("designation", { required: true })}
                 type="text"
                 placeholder="Designation (e.g., Sales Assistant)"
-                name="designation"
                 className="input input-bordered"
-                required
               />
+              {errors.designation && (
+                <span className="text-red-400">This field is required</span>
+              )}
             </div>
 
-            {/* <div className="form-control">
+            <div className="form-control">
               <label className="label">
                 <span className="label-text">Photo</span>
               </label>
               <input
                 type="file"
                 accept="image/*"
-                onChange={handleImageUpload}
+                onChange={handleFileChange}
                 className="file-input file-input-bordered"
-                required
               />
-            </div> */}
+              {photo && (
+                <p className="text-green-500 mt-2">Photo uploaded successfully!</p>
+              )}
+            </div>
 
             <div className="form-control">
               <label className="label">
@@ -174,18 +204,32 @@ const Signup = () => {
                   required: true,
                   minLength: 6,
                   maxLength: 14,
-                  pattern: /(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-])/
+                  pattern:
+                    /(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-])/,
                 })}
                 type="password"
-                placeholder="password"
-                name="password"
+                placeholder="Password"
                 className="input input-bordered"
-                required
               />
-              {errors.password?.type === 'required' && <p className="text-red-400">Password is required</p>}
-              {errors.password?.type === 'minLength' && <p className="text-red-400">Password must be 6 characters</p>}
-              {errors.password?.type === 'maxLength' && <p className="text-red-400">Password not more then 14 characters</p>}
-              {errors.password?.type === 'pattern' && <p className="text-red-400">Password have must one upper case, one lower case, one number, one special characters</p>}
+              {errors.password?.type === "required" && (
+                <p className="text-red-400">Password is required</p>
+              )}
+              {errors.password?.type === "minLength" && (
+                <p className="text-red-400">
+                  Password must be at least 6 characters
+                </p>
+              )}
+              {errors.password?.type === "maxLength" && (
+                <p className="text-red-400">
+                  Password must not exceed 14 characters
+                </p>
+              )}
+              {errors.password?.type === "pattern" && (
+                <p className="text-red-400">
+                  Password must include uppercase, lowercase, number, and special
+                  character
+                </p>
+              )}
             </div>
 
             <div className="form-control mt-6">
@@ -197,17 +241,11 @@ const Signup = () => {
             <NavLink to="/login">
               <label className="label">
                 <span className="text-sm">Already have an account?</span>
-                <span className="label-text-alt link link-hover font-semibold text-blue-500"> Log In</span>
+                <span className="label-text-alt link link-hover font-semibold text-blue-500">
+                  Log In
+                </span>
               </label>
             </NavLink>
-
-            <hr />
-
-            <div className="form-control mt-6">
-              <button type="button" className="btn bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500">
-                <i className="fa-brands fa-google text-red-600"></i> Sign Up With Google
-              </button>
-            </div>
           </form>
         </div>
       </div>
