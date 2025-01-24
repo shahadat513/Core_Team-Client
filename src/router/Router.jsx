@@ -5,6 +5,8 @@ import Login from "../pages/Shared/Login";
 import Signup from "../pages/Shared/Signup";
 import PrivateRoutes from "./privateRoutes";
 import ContactUs from "../pages/Home/ContactUs";
+import Dashboard from "../layout/Dashboard";
+import Employee from "../pages/Dashboard/Employee/Employee";
 
 const router = createBrowserRouter([
     {
@@ -30,6 +32,18 @@ const router = createBrowserRouter([
             }
         ]
     },
+    {
+        path:"dashboard",
+        element:<Dashboard></Dashboard>,
+        errorElement: <h2>Page Not Found</h2>,
+        children: [
+            {
+                path: "employee",
+                element:<Employee></Employee>
+            },
+        ]
+    }
+    
 ]);
 
 export default router;

@@ -54,6 +54,11 @@ const Navbar = () => {
                   <a>Contact Us</a>
                 </li>
               </NavLink>
+              <NavLink to="/dashboard">
+                <li>
+                  <a>Dashboard</a>
+                </li>
+              </NavLink>
             </ul>
           </div>
           <NavLink to="/">
@@ -72,6 +77,11 @@ const Navbar = () => {
                 <a>Contact Us</a>
               </li>
             </NavLink>
+            <NavLink to="/dashboard/employee">
+                <li>
+                  <a>Dashboard</a>
+                </li>
+              </NavLink>
           </ul>
         </div>
         <div className="navbar-end gap-4">

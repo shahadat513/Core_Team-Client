@@ -50,21 +50,48 @@ const Signup = () => {
     }
 
     try {
+      // Create user in Firebase
       const user = await createUser(data.email, data.password);
       console.log(user);
 
+      // Update Firebase user profile
       await updateUserProfile(data.name, photo);
       console.log("User profile updated");
 
-      reset();
+      // Prepare data to send to the server
+      const userData = {
+        name: data.name,
+        email: data.email,
+        role: data.role,
+        bank_account_no: data.bank_account_no,
+        salary: data.salary,
+        designation: data.designation,
+        photo: photo,
+      };
 
-      Swal.fire({
-        title: "Success!",
-        text: "Account created successfully!",
-        icon: "success",
-      }).then(() => {
-        navigate("/"); // Redirect to home
+      // Save user data to the server
+      const response = await fetch("http://localhost:5000/user", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userData),
       });
+
+      if (response.ok) {
+        reset();
+        Swal.fire({
+          title: "Success!",
+          text: "Account created successfully!",
+          icon: "success",
+        }).then(() => {
+          navigate("/"); // Redirect to home
+        });
+      } else {
+        const errorData = await response.json();
+        console.error("Error saving user data:", errorData);
+        Swal.fire("Error", "Failed to save user data. Please try again.", "error");
+      }
     } catch (error) {
       console.error("Error during signup:", error);
       Swal.fire("Error", "Failed to create account. Please try again.", "error");
@@ -86,6 +113,7 @@ const Signup = () => {
       <div className="hero-content flex-col lg:flex-row-reverse">
         <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
           <form onSubmit={handleSubmit(onSubmit)} className="card-body">
+            {/* Name Field */}
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Name</span>
@@ -101,6 +129,7 @@ const Signup = () => {
               )}
             </div>
 
+            {/* Email Field */}
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Email</span>
@@ -116,6 +145,7 @@ const Signup = () => {
               )}
             </div>
 
+            {/* Role Field */}
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Role</span>
@@ -124,20 +154,19 @@ const Signup = () => {
                 {...register("role", { required: true })}
                 className="select select-bordered"
               >
-                <option value="" disabled selected>
-                  Select Role
-                </option>
-                <option value="HR">HR</option>
-                <option value="Employee">Employee</option>
+                <option value="">Select a role</option>
+                <option value="admin">Employee</option>
+                <option value="user">HR</option>
               </select>
               {errors.role && (
                 <span className="text-red-400">This field is required</span>
               )}
             </div>
 
+            {/* Bank Account Field */}
             <div className="form-control">
               <label className="label">
-                <span className="label-text">Bank Account No.</span>
+                <span className="label-text">Bank Account No</span>
               </label>
               <input
                 {...register("bank_account_no", { required: true })}
@@ -150,6 +179,7 @@ const Signup = () => {
               )}
             </div>
 
+            {/* Salary Field */}
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Salary</span>
@@ -165,6 +195,7 @@ const Signup = () => {
               )}
             </div>
 
+            {/* Designation Field */}
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Designation</span>
@@ -172,7 +203,7 @@ const Signup = () => {
               <input
                 {...register("designation", { required: true })}
                 type="text"
-                placeholder="Designation (e.g., Sales Assistant)"
+                placeholder="Designation"
                 className="input input-bordered"
               />
               {errors.designation && (
@@ -180,6 +211,7 @@ const Signup = () => {
               )}
             </div>
 
+            {/* Photo Upload Field */}
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Photo</span>
@@ -195,43 +227,23 @@ const Signup = () => {
               )}
             </div>
 
+            {/* Password Field */}
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Password</span>
               </label>
               <input
-                {...register("password", {
-                  required: true,
-                  minLength: 6,
-                  maxLength: 14,
-                  pattern:
-                    /(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-])/,
-                })}
+                {...register("password", { required: true })}
                 type="password"
                 placeholder="Password"
                 className="input input-bordered"
               />
-              {errors.password?.type === "required" && (
-                <p className="text-red-400">Password is required</p>
-              )}
-              {errors.password?.type === "minLength" && (
-                <p className="text-red-400">
-                  Password must be at least 6 characters
-                </p>
-              )}
-              {errors.password?.type === "maxLength" && (
-                <p className="text-red-400">
-                  Password must not exceed 14 characters
-                </p>
-              )}
-              {errors.password?.type === "pattern" && (
-                <p className="text-red-400">
-                  Password must include uppercase, lowercase, number, and special
-                  character
-                </p>
+              {errors.password && (
+                <span className="text-red-400">This field is required</span>
               )}
             </div>
 
+            {/* Submit Button */}
             <div className="form-control mt-6">
               <button className="btn bg-gradient-to-r from-teal-500 to-blue-500 hover:from-teal-600 hover:to-blue-600 text-white btn-primary">
                 Sign Up
