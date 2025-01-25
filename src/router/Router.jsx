@@ -28,22 +28,22 @@ const router = createBrowserRouter([
             },
             {
                 path: "/contact",
-                element: <PrivateRoutes><ContactUs></ContactUs></PrivateRoutes>
+                element: <ContactUs></ContactUs>
             }
         ]
     },
     {
-        path:"dashboard",
-        element:<Dashboard></Dashboard>,
+        path: "dashboard",
+        element: <PrivateRoutes><Dashboard></Dashboard></PrivateRoutes>,
         errorElement: <h2>Page Not Found</h2>,
         children: [
             {
                 path: "employee",
-                element:<Employee></Employee>
+                element: <Employee></Employee>
             },
         ]
     }
-    
+
 ]);
 
 export default router;

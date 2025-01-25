@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../providers/AuthProvider";
 import Swal from "sweetalert2";
+import SocialLogIn from "../../component/SocialLogIn/SocialLogIn";
 
 const Login = () => {
   const { signIn } = useContext(AuthContext);
@@ -38,6 +39,8 @@ const Login = () => {
     }
   };
 
+
+
   return (
     <div className="hero bg-base-200 min-h-screen">
       <div className="hero-content flex-col lg:flex-row-reverse">
@@ -73,7 +76,7 @@ const Login = () => {
             <div className="form-control mt-6">
               <button
                 type="submit"
-                className="btn bg-gradient-to-r from-teal-400 via-green-400 to-lime-500 btn-primary"
+                className="btn bg-gradient-to-r from-teal-400 via-green-400 to-lime-500 "
               >
                 Log In
               </button>
@@ -88,12 +91,7 @@ const Login = () => {
             </NavLink>
             <hr />
             <div className="form-control mt-6">
-              <button
-                type="button"
-                className="btn bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"
-              >
-                <i className="fa-brands fa-google text-red-600"></i> Log In With Google
-              </button>
+              <SocialLogIn></SocialLogIn>
             </div>
           </form>
         </div>

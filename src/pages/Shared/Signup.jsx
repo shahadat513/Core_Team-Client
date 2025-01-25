@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../providers/AuthProvider";
 import Swal from "sweetalert2";
+import SocialLogIn from "../../component/SocialLogIn/SocialLogIn";
 
 const Signup = () => {
   const [photo, setPhoto] = useState("");
@@ -155,8 +156,8 @@ const Signup = () => {
                 className="select select-bordered"
               >
                 <option value="">Select a role</option>
-                <option value="admin">Employee</option>
-                <option value="user">HR</option>
+                <option value="Employee">Employee</option>
+                <option value="HR">HR</option>
               </select>
               {errors.role && (
                 <span className="text-red-400">This field is required</span>
@@ -245,7 +246,7 @@ const Signup = () => {
 
             {/* Submit Button */}
             <div className="form-control mt-6">
-              <button className="btn bg-gradient-to-r from-teal-500 to-blue-500 hover:from-teal-600 hover:to-blue-600 text-white btn-primary">
+              <button className="btn bg-gradient-to-r from-teal-500 to-blue-500 hover:from-teal-600 hover:to-blue-600 text-white">
                 Sign Up
               </button>
             </div>
@@ -258,6 +259,10 @@ const Signup = () => {
                 </span>
               </label>
             </NavLink>
+            <hr />
+            <div className="form-control mt-6">
+              <SocialLogIn></SocialLogIn>
+            </div>
           </form>
         </div>
       </div>
