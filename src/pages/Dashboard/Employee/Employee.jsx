@@ -9,6 +9,8 @@ import useAxiosSecure from "../../../hook/useAxiosSecure";
 const Employee = () => {
   const { user } = useContext(AuthContext);
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editTask, setEditTask] = useState(null);
   const axiosSecure = useAxiosSecure();
 
   const handleSubmit = (event) => {
@@ -26,22 +28,45 @@ const Employee = () => {
     };
 
     // Add Task To DB
-    axiosSecure.post("/tasks", taskData)
-      .then((res) => {
-        if (res.data.insertedId) {
-          Swal.fire({
-            title: "Congratulations!",
-            text: "Task Added Successfully",
-            icon: "success",
-          });
-          // Refetch item to update the data instantly
-          refetch()
-          form.reset();
-        }
-      });
+    axiosSecure.post("/tasks", taskData).then((res) => {
+      if (res.data.insertedId) {
+        Swal.fire({
+          title: "Congratulations!",
+          text: "Task Added Successfully",
+          icon: "success",
+        });
+        refetch();
+        form.reset();
+      }
+    });
   };
 
-  // Get Task Data From DB Using TanStack Query
+  const handleUpdate = (event) => {
+    event.preventDefault();
+
+    const form = event.target;
+    const task = form.task.value;
+    const hours = form.hours.value;
+
+    const updatedTask = {
+      task,
+      hours,
+      date: selectedDate.toISOString().split("T")[0],
+    };
+
+    axiosSecure.put(`/tasks/${editTask._id}`, updatedTask).then((res) => {
+      if (res.data.modifiedCount > 0) {
+        Swal.fire({
+          title: "Updated!",
+          text: "Task updated successfully",
+          icon: "success",
+        });
+        refetch();
+        setIsModalOpen(false);
+      }
+    });
+  };
+
   const { data: tasks = [], isLoading, isError, error, refetch } = useQuery({
     queryKey: ["tasks", user?.email],
     queryFn: async () => {
@@ -50,7 +75,37 @@ const Employee = () => {
     },
   });
 
-  // Handle loading and error states
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosSecure.delete(`/tasks/${id}`).then((res) => {
+          if (res.data.deletedCount > 0) {
+            refetch();
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your file has been deleted.",
+              icon: "success",
+            });
+          }
+        });
+      }
+    });
+  };
+
+  const handleEdit = (task) => {
+    setEditTask(task);
+    setSelectedDate(new Date(task.date));
+    setIsModalOpen(true);
+  };
+
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Error: {error.message}</p>;
 
@@ -115,31 +170,112 @@ const Employee = () => {
         <div>
           <div className="overflow-x-auto">
             <table className="table table-zebra">
-              {/* head */}
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>Task {tasks.length}</th>
+                  <th>Task</th>
                   <th>Hours Worked</th>
                   <th>Date</th>
                   <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {
-                  tasks.map((item, index) => <tr key={item._id}>
-                    <td>{index+1}</td>
+                {tasks.map((item, index) => (
+                  <tr key={item._id}>
+                    <td>{index + 1}</td>
                     <td>{item.task}</td>
                     <td>{item.hours}</td>
                     <td>{item.date}</td>
-                    <td>Edit Delete</td>
-                  </tr>)
-                }
+                    <td>
+                      <button
+                        className="btn btn-sm btn-warning"
+                        onClick={() => handleEdit(item)}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleDelete(item._id)}
+                        className="btn btn-sm btn-danger ml-2"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
         </div>
       </div>
+
+      {/* Modal */}
+      {isModalOpen && (
+        <div className="modal modal-open">
+          <div className="modal-box">
+            <h3 className="font-bold text-lg">Edit Task</h3>
+            <form onSubmit={handleUpdate}>
+              {/* Task Field */}
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">Task</span>
+                </label>
+                <select
+                  name="task"
+                  className="select select-bordered"
+                  defaultValue={editTask.task}
+                  required
+                >
+                  <option disabled>Select Task</option>
+                  <option>Sales</option>
+                  <option>Support</option>
+                  <option>Content</option>
+                  <option>Paper-work</option>
+                </select>
+              </div>
+
+              {/* Hours Worked Field */}
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">Hours Worked</span>
+                </label>
+                <input
+                  name="hours"
+                  type="number"
+                  defaultValue={editTask.hours}
+                  className="input input-bordered"
+                  required
+                />
+              </div>
+
+              {/* Date Picker Field */}
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">Date</span>
+                </label>
+                <DatePicker
+                  selected={selectedDate}
+                  onChange={(date) => setSelectedDate(date)}
+                  className="input input-bordered"
+                  dateFormat="yyyy-MM-dd"
+                />
+              </div>
+
+              <div className="modal-action">
+                <button type="submit" className="btn btn-primary">
+                  Update
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => setIsModalOpen(false)}
+                >
+                  Close
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
