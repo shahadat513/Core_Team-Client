@@ -7,6 +7,8 @@ import PrivateRoutes from "./privateRoutes";
 import ContactUs from "../pages/Home/ContactUs";
 import Dashboard from "../layout/Dashboard";
 import Employee from "../pages/Dashboard/Employee/Employee";
+import AllEmployee from "../pages/Dashboard/Admin/AllEmployee";
+import HR from "../pages/Dashboard/HR/HR";
 
 const router = createBrowserRouter([
     {
@@ -40,6 +42,17 @@ const router = createBrowserRouter([
             {
                 path: "employee",
                 element: <Employee></Employee>
+            },
+            // Admin 
+            {
+                path: "allEmployee",
+                element: <AllEmployee></AllEmployee>
+            },
+
+            // HR
+            {
+                path: "employeeList",
+                element: <HR></HR>
             },
         ]
     }
