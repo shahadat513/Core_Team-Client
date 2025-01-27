@@ -9,6 +9,10 @@ import Dashboard from "../layout/Dashboard";
 import Employee from "../pages/Dashboard/Employee/Employee";
 import AllEmployee from "../pages/Dashboard/Admin/AllEmployee";
 import HR from "../pages/Dashboard/HR/HR";
+import HRHome from "../pages/Dashboard/HR/HRHome";
+import AdminHome from "../pages/Dashboard/Admin/AdminHome";
+import EmployeeHome from "../pages/Dashboard/Employee/EmployeeHome";
+import Payment from "../component/Payment";
 
 const router = createBrowserRouter([
     {
@@ -39,11 +43,20 @@ const router = createBrowserRouter([
         element: <PrivateRoutes><Dashboard></Dashboard></PrivateRoutes>,
         errorElement: <h2>Page Not Found</h2>,
         children: [
+            // Employee
+            {
+                path: "employeeHome",
+                element: <EmployeeHome></EmployeeHome>
+            },
             {
                 path: "employee",
                 element: <Employee></Employee>
             },
             // Admin 
+            {
+                path: "adminHome",
+                element: <AdminHome></AdminHome>
+            },
             {
                 path: "allEmployee",
                 element: <AllEmployee></AllEmployee>
@@ -51,8 +64,17 @@ const router = createBrowserRouter([
 
             // HR
             {
+                path: "hrHome",
+                element:<HRHome></HRHome>
+            },
+            {
                 path: "employeeList",
                 element: <HR></HR>
+            },
+            {
+                path: "payment/:id",
+                element: <Payment></Payment>,
+                loader:({params})=>fetch(`http://localhost:5000/user/${params.id}`)
             },
         ]
     }

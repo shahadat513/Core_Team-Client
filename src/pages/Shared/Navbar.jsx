@@ -1,10 +1,14 @@
 import { useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { AuthContext } from "../../providers/AuthProvider";
+import UseAdmin from "../../hook/useAdmin";
+import UseHR from "../../hook/useHR";
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [isAdmin] = UseAdmin()
+  const [isHR] = UseHR()
 
   const handleLogOut = async () => {
     try {
@@ -54,11 +58,29 @@ const Navbar = () => {
                   <a>Contact Us</a>
                 </li>
               </NavLink>
-              <NavLink to="/dashboard">
-                <li>
-                  <a>Dashboard</a>
-                </li>
-              </NavLink>
+
+              {
+                user && isAdmin && <NavLink to="/dashboard/adminHome">
+                  <li>
+                    <a>Dashboard</a>
+                  </li>
+                </NavLink>
+              }
+              {
+                user && isHR && <NavLink to="/dashboard/hrHome">
+                  <li>
+                    <a>Dashboard</a>
+                  </li>
+                </NavLink>
+              }
+              {
+                user && <NavLink to="/dashboard/employeeHome">
+                  <li>
+                    <a>Dashboard</a>
+                  </li>
+                </NavLink>
+              }
+
             </ul>
           </div>
           <NavLink to="/">
@@ -77,11 +99,28 @@ const Navbar = () => {
                 <a>Contact Us</a>
               </li>
             </NavLink>
-            <NavLink to="/dashboard/employee">
+            {
+              isAdmin && <NavLink to="/dashboard/adminHome">
                 <li>
                   <a>Dashboard</a>
                 </li>
               </NavLink>
+            }
+             {
+                isHR && <NavLink to="/dashboard/hrHome">
+                  <li>
+                    <a>Dashboard</a>
+                  </li>
+                </NavLink>
+              }
+              {
+                user && <NavLink to="/dashboard/employeeHome">
+                  <li>
+                    <a>Dashboard</a>
+                  </li>
+                </NavLink>
+              }
+
           </ul>
         </div>
         <div className="navbar-end gap-4">

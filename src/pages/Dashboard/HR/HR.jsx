@@ -1,13 +1,11 @@
 import "react-datepicker/dist/react-datepicker.css";
-import Swal from "sweetalert2";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hook/useAxiosSecure";
-import { TbUserX, TbUserCheck } from "react-icons/tb";
-
+import { Link } from "react-router-dom";
 const HR = () => {
     const axiosSecure = useAxiosSecure();
 
-    const { data: users = [], isLoading, isError, error, refetch } = useQuery({
+    const { data: users = [], isLoading, isError, error, } = useQuery({
         queryKey: ["users"],
         queryFn: async () => {
             const res = await axiosSecure.get('/user');
@@ -43,10 +41,9 @@ const HR = () => {
                                     <td>{index + 1}</td>
                                     <td>{item.name}</td>
                                     <td>{item.role}</td>
+                                    <td>{item.salary}</td>
                                     <td>
-                                        
-                                    </td>
-                                    <td>
+                                        <Link to={`/dashboard/payment/${item._id}`}><button className="btn">Pay</button></Link>
                                     </td>
                                 </tr>
                             ))}
