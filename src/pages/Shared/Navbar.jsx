@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { AuthContext } from "../../providers/AuthProvider";
+import logo from '../../assets/Core-Team_Logo.png'
 // import UseAdmin from "../../hook/useAdmin";
 // import UseHR from "../../hook/useHR";
 
@@ -25,7 +26,7 @@ const Navbar = () => {
 
   return (
     <div>
-      <div className="navbar bg-[#3E007C] text-white font-bold">
+      <div className="navbar sticky top-0 z-50 bg-[#3E007C] text-white font-bold">
         <div className="navbar-start">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -48,68 +49,48 @@ const Navbar = () => {
               tabIndex={0}
               className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
             >
-              <NavLink to="/">
+              <NavLink to="/" className={({ isActive }) => (isActive ? "text-orange-600 font-bold" : "text-white")}>
                 <li>
                   <a>Home</a>
                 </li>
               </NavLink>
-              <NavLink to="/contact">
+              <NavLink to="/contact" className={({ isActive }) => (isActive ? "text-orange-600 font-bold" : "text-white")}>
                 <li>
                   <a>Contact Us</a>
                 </li>
               </NavLink>
 
-              <NavLink to="/dashboard/adminHome">
-                  <li>
-                    <a>Dashboard</a>
-                  </li>
-                </NavLink>
-            {/* {
-                user?.role == 'admin' ?  : user?.role == 'HR' ? <NavLink to="/dashboard/hrHome">
-                  <li>
-                    <a>Dashboard</a>
-                  </li>
-                </NavLink> : user?.role == 'Employee' ? <NavLink to="/dashboard/employeeHome">
-                  <li>
-                    <a>Dashboard</a>
-                  </li>
-                </NavLink> : <></>
-              } */}
-
+              <NavLink to="/dashboard/adminHome" className={({ isActive }) => (isActive ? "text-orange-600 font-bold" : "text-white")}>
+                <li>
+                  <a>Dashboard</a>
+                </li>
+              </NavLink>
             </ul>
           </div>
-          <NavLink to="/">
-            <a className="btn btn-ghost text-xl">CoreTeam</a>
+          <NavLink to="/" className="btn btn-ghost text-xl">
+            <img
+              className="h-8 w-8"
+              src={logo}
+              alt="logo" /> CoreTeam
           </NavLink>
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">
-            <NavLink to="/">
+            <NavLink to="/" className={({ isActive }) => (isActive ? "text-orange-600 font-bold" : "text-white")}>
               <li>
                 <a>Home</a>
               </li>
             </NavLink>
-            <NavLink to="/contact">
+            <NavLink to="/contact" className={({ isActive }) => (isActive ? "text-orange-600 font-bold" : "text-white")}>
               <li>
                 <a>Contact Us</a>
               </li>
             </NavLink>
-            <NavLink to="/dashboard/adminHome">
-                  <li>
-                    <a>Dashboard</a>
-                  </li>
-                </NavLink>
-            {/* {
-                user?.role == 'admin' ?  : user?.role == 'HR' ? <NavLink to="/dashboard/hrHome">
-                  <li>
-                    <a>Dashboard</a>
-                  </li>
-                </NavLink> : user?.role == 'Employee' ? <NavLink to="/dashboard/employeeHome">
-                  <li>
-                    <a>Dashboard</a>
-                  </li>
-                </NavLink> : <></>
-              } */}
+            <NavLink to="/dashboard/adminHome" className={({ isActive }) => (isActive ? "text-orange-600 font-bold" : "text-white")}>
+              <li>
+                <a>Dashboard</a>
+              </li>
+            </NavLink>
 
           </ul>
         </div>
