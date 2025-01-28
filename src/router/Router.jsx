@@ -13,6 +13,8 @@ import HRHome from "../pages/Dashboard/HR/HRHome";
 import AdminHome from "../pages/Dashboard/Admin/AdminHome";
 import EmployeeHome from "../pages/Dashboard/Employee/EmployeeHome";
 import Payment from "../component/Payment";
+import Payroll from "../pages/Dashboard/Admin/PayRoll";
+import PaymentHistory from "../pages/Dashboard/Employee/PaymentHistory";
 
 const router = createBrowserRouter([
     {
@@ -52,6 +54,12 @@ const router = createBrowserRouter([
                 path: "employee",
                 element: <Employee></Employee>
             },
+            {
+                path: "paymentHistory",
+                element: <PaymentHistory></PaymentHistory>
+            },
+
+
             // Admin 
             {
                 path: "adminHome",
@@ -61,6 +69,16 @@ const router = createBrowserRouter([
                 path: "allEmployee",
                 element: <AllEmployee></AllEmployee>
             },
+            {
+                path: "payroll",
+                element: <Payroll></Payroll>
+            },
+            {
+                path: "payment/:id",
+                element: <Payment></Payment>,
+                loader:({params})=>fetch(`http://localhost:5000/user/${params.id}`)
+            },
+
 
             // HR
             {
@@ -70,11 +88,6 @@ const router = createBrowserRouter([
             {
                 path: "employeeList",
                 element: <HR></HR>
-            },
-            {
-                path: "payment/:id",
-                element: <Payment></Payment>,
-                loader:({params})=>fetch(`http://localhost:5000/user/${params.id}`)
             },
         ]
     }

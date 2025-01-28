@@ -2,7 +2,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import Swal from "sweetalert2";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hook/useAxiosSecure";
-import { TbUserX, TbUserCheck } from "react-icons/tb";
+import { TbUserX, TbUserCheck, TbCurrencyDollar } from "react-icons/tb";
 
 const AllEmployee = () => {
     const axiosSecure = useAxiosSecure();
@@ -10,7 +10,7 @@ const AllEmployee = () => {
     const { data: users = [], isLoading, isError, error, refetch } = useQuery({
         queryKey: ["users"],
         queryFn: async () => {
-            const res = await axiosSecure.get('/user');
+            const res = await axiosSecure.get("/user/admin");
             return res.data;
         },
     });
@@ -65,13 +65,47 @@ const AllEmployee = () => {
         });
     };
 
+    const handleAdjustSalary = (id, currentSalary) => {
+        Swal.fire({
+            title: "Adjust Salary",
+            input: "number",
+            inputLabel: `Current Salary: $${currentSalary}`,
+            inputPlaceholder: "Enter new salary",
+            showCancelButton: true,
+            confirmButtonText: "Update",
+            inputValidator: (value) => {
+                if (!value || isNaN(value) || Number(value) <= currentSalary) {
+                    return `Please enter a valid amount greater than the current salary of $${currentSalary}`;
+                }
+            },
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const newSalary = Number(result.value);
+                axiosSecure
+                    .put(`/user/salary/${id}`, { salary: newSalary })
+                    .then((res) => {
+                        if (res.data.modifiedCount > 0) {
+                            Swal.fire({
+                                title: "Success!",
+                                text: "The salary has been updated successfully.",
+                                icon: "success",
+                            });
+                            refetch();
+                        }
+                    });
+            }
+        });
+    };
+
     if (isLoading) return <p>Loading...</p>;
     if (isError) return <p>Error: {error.message}</p>;
 
     return (
         <div className="p-6 mx-auto bg-white shadow-md rounded-lg">
             <h1 className="text-2xl font-bold mb-4 text-center">All Employee List</h1>
-            <h1 className="text-xl font-bold mb-4 text-left">Totall Employee : {users.length}</h1>
+            <h1 className="text-xl font-bold mb-4 text-left">
+                Total Employees: {users.length}
+            </h1>
             <div className="card">
                 <div className="overflow-x-auto">
                     <table className="table table-zebra">
@@ -80,6 +114,8 @@ const AllEmployee = () => {
                                 <th>#</th>
                                 <th>NAME</th>
                                 <th>DESIGNATION</th>
+                                <th>SALARY</th>
+                                <th>ADJUST SALARY</th>
                                 <th>MAKE HR</th>
                                 <th>FIRE</th>
                             </tr>
@@ -90,6 +126,15 @@ const AllEmployee = () => {
                                     <td>{index + 1}</td>
                                     <td>{item.name}</td>
                                     <td>{item.role}</td>
+                                    <td>${item.salary}</td>
+                                    <td>
+                                        <button
+                                            onClick={() => handleAdjustSalary(item._id, item.salary)}
+                                            className="text-green-600 text-xl"
+                                        >
+                                            <TbCurrencyDollar />
+                                        </button>
+                                    </td>
                                     <td>
                                         {item.role !== "HR" ? (
                                             <button

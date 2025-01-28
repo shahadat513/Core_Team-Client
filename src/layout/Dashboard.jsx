@@ -5,18 +5,20 @@ import UseAdmin from "../hook/useAdmin";
 import UseHR from "../hook/useHR";
 import { useContext } from "react";
 import { AuthContext } from "../providers/AuthProvider";
+import UseEmployee from "../hook/useEmployee";
 
 const Dashboard = () => {
     const { user } = useContext(AuthContext);
     const [isAdmin] = UseAdmin();
     const [isHR] = UseHR();
+    const [isEmployee] = UseEmployee()
 
     return (
         <div className="flex px-10">
             <div className="w-64 min-h-screen bg-stone-400 ">
                 <ul className="menu p-10">
                     {
-                        user && <>
+                        isEmployee && <>
                             <li>
                                 <NavLink to="/dashboard/employeeHome">Employee Home</NavLink>
                             </li>
@@ -25,7 +27,7 @@ const Dashboard = () => {
                             </li>
 
                             <li>
-                                <NavLink to="/dashboard/employeePayment">Payment History</NavLink>
+                                <NavLink to="/dashboard/paymentHistory">Payment History</NavLink>
                             </li>
                         </>
                     }
@@ -38,9 +40,6 @@ const Dashboard = () => {
                                 <NavLink to="/dashboard/allEmployee">
                                     <FaUsers></FaUsers> All Employee List
                                 </NavLink>
-                            </li>
-                            <li>
-                                <NavLink to="/dashboard/employeeList">Employee List</NavLink>
                             </li>
                             <li>
                                 <NavLink to="/dashboard/payRoll">

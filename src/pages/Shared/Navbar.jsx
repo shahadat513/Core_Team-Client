@@ -1,14 +1,14 @@
 import { useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { AuthContext } from "../../providers/AuthProvider";
-import UseAdmin from "../../hook/useAdmin";
-import UseHR from "../../hook/useHR";
+// import UseAdmin from "../../hook/useAdmin";
+// import UseHR from "../../hook/useHR";
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [isAdmin] = UseAdmin()
-  const [isHR] = UseHR()
+  // const [isAdmin] = UseAdmin()
+  // const [isHR] = UseHR()
 
   const handleLogOut = async () => {
     try {
@@ -59,27 +59,22 @@ const Navbar = () => {
                 </li>
               </NavLink>
 
-              {
-                user && isAdmin && <NavLink to="/dashboard/adminHome">
+              <NavLink to="/dashboard/adminHome">
                   <li>
                     <a>Dashboard</a>
                   </li>
                 </NavLink>
-              }
-              {
-                user && isHR && <NavLink to="/dashboard/hrHome">
+            {/* {
+                user?.role == 'admin' ?  : user?.role == 'HR' ? <NavLink to="/dashboard/hrHome">
                   <li>
                     <a>Dashboard</a>
                   </li>
-                </NavLink>
-              }
-              {
-                user && <NavLink to="/dashboard/employeeHome">
+                </NavLink> : user?.role == 'Employee' ? <NavLink to="/dashboard/employeeHome">
                   <li>
                     <a>Dashboard</a>
                   </li>
-                </NavLink>
-              }
+                </NavLink> : <></>
+              } */}
 
             </ul>
           </div>
@@ -99,27 +94,22 @@ const Navbar = () => {
                 <a>Contact Us</a>
               </li>
             </NavLink>
-            {
-              isAdmin && <NavLink to="/dashboard/adminHome">
-                <li>
-                  <a>Dashboard</a>
-                </li>
-              </NavLink>
-            }
-             {
-                isHR && <NavLink to="/dashboard/hrHome">
+            <NavLink to="/dashboard/adminHome">
                   <li>
                     <a>Dashboard</a>
                   </li>
                 </NavLink>
-              }
-              {
-                user && <NavLink to="/dashboard/employeeHome">
+            {/* {
+                user?.role == 'admin' ?  : user?.role == 'HR' ? <NavLink to="/dashboard/hrHome">
                   <li>
                     <a>Dashboard</a>
                   </li>
-                </NavLink>
-              }
+                </NavLink> : user?.role == 'Employee' ? <NavLink to="/dashboard/employeeHome">
+                  <li>
+                    <a>Dashboard</a>
+                  </li>
+                </NavLink> : <></>
+              } */}
 
           </ul>
         </div>
