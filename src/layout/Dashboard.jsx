@@ -3,12 +3,9 @@ import { IoMdMail } from "react-icons/io";
 import { NavLink, Outlet } from "react-router-dom";
 import UseAdmin from "../hook/useAdmin";
 import UseHR from "../hook/useHR";
-import { useContext } from "react";
-import { AuthContext } from "../providers/AuthProvider";
 import UseEmployee from "../hook/useEmployee";
 
 const Dashboard = () => {
-    const { user } = useContext(AuthContext);
     const [isAdmin] = UseAdmin();
     const [isHR] = UseHR();
     const [isEmployee] = UseEmployee()

@@ -2,12 +2,13 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hook/useAxiosSecure";
 import { useState } from "react";
 import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
 
 const Payroll = () => {
     const axiosSecure = useAxiosSecure();
     const [payrolls, setPayrolls] = useState([]);
 
-    const { isLoading, isError, error, refetch } = useQuery({
+    const { isLoading, isError, error } = useQuery({
         queryKey: ["payroll"],
         queryFn: async () => {
             const res = await axiosSecure.get("/payroll");
@@ -30,52 +31,52 @@ const Payroll = () => {
     };
 
     // Handle payment
-    const handlePayment = async (id, month, year) => {
-        // Check for duplicate payment
-        const isDuplicatePayment = payrolls.some(
-            (payroll) =>
-                payroll._id !== id &&
-                payroll.status === "Paid" &&
-                payroll.month === month &&
-                payroll.year === year
-        );
+    // const handlePayment = async (id, month, year) => {
+    //     // Check for duplicate payment
+    //     const isDuplicatePayment = payrolls.some(
+    //         (payroll) =>
+    //             payroll._id !== id &&
+    //             payroll.status === "Paid" &&
+    //             payroll._id.month === month &&
+    //             payroll._id.year === year
+    //     );
 
-        if (isDuplicatePayment) {
-            Swal.fire("Warning", "Payment for this month and year already exists!", "warning");
-            return;
-        }
+    //     if (isDuplicatePayment) {
+    //         Swal.fire("Warning", "Payment for this month and year already exists!", "warning");
+    //         return;
+    //     }
 
-        // Confirm payment
-        Swal.fire({
-            title: "Are you sure?",
-            text: `You are about to pay the salary for ${month}/${year}. This action cannot be undone.`,
-            icon: "question",
-            showCancelButton: true,
-            confirmButtonText: "Yes, Pay",
-            cancelButtonText: "Cancel",
-        }).then(async (result) => {
-            if (result.isConfirmed) {
-                try {
-                    const paymentDate = new Date().toISOString(); // Get current date
-                    await axiosSecure.patch(`/payroll/${id}`, {
-                        status: "Paid",
-                        paymentDate,
-                    });
+    //     // Confirm payment
+    //     Swal.fire({
+    //         title: "Are you sure?",
+    //         text: `You are about to pay the salary for ${month}/${year}. This action cannot be undone.`,
+    //         icon: "question",
+    //         showCancelButton: true,
+    //         confirmButtonText: "Yes, Pay",
+    //         cancelButtonText: "Cancel",
+    //     }).then(async (result) => {
+    //         if (result.isConfirmed) {
+    //             try {
+    //                 const paymentDate = new Date().toISOString(); // Get current date
+    //                 await axiosSecure.patch(`/payroll/${id}`, {
+    //                     status: "Paid",
+    //                     paymentDate,
+    //                 });
 
-                    const updatedPayrolls = payrolls.map((payroll) =>
-                        payroll._id === id
-                            ? { ...payroll, status: "Paid", paymentDate }
-                            : payroll
-                    );
-                    setPayrolls(updatedPayrolls);
+    //                 const updatedPayrolls = payrolls.map((payroll) =>
+    //                     payroll._id === id
+    //                         ? { ...payroll, status: "Paid", paymentDate }
+    //                         : payroll
+    //                 );
+    //                 setPayrolls(updatedPayrolls);
 
-                    Swal.fire("Success", "Payment completed successfully!", "success");
-                } catch (error) {
-                    Swal.fire("Error", "Failed to process payment", "error");
-                }
-            }
-        });
-    };
+    //                 Swal.fire("Success", "Payment completed successfully!", "success");
+    //             } catch (error) {
+    //                 Swal.fire("Error", "Failed to process payment", "error");
+    //             }
+    //         }
+    //     });
+    // };
 
     if (isLoading) return <p>Loading...</p>;
     if (isError) return <p>Error: {error.message}</p>;
@@ -124,12 +125,14 @@ const Payroll = () => {
                                     </>
                                 )}
                                 {request.status === "Approved" && !request.paymentDate && (
-                                    <button
-                                        onClick={() => handlePayment(request._id, request.month, request.year)}
-                                        className="btn btn-primary btn-sm"
-                                    >
-                                        Pay
-                                    </button>
+                                    <Link to={`/dashboard/payment/${request._id}`}>
+                                        <button
+                                            // onClick={() => handlePayment(request._id, request.month, request.year)}
+                                            className="btn btn-primary btn-sm"
+                                        >
+                                            Pay
+                                        </button>
+                                    </Link>
                                 )}
                                 {request.status === "Paid" && (
                                     <span className="text-green-500 font-bold">Paid</span>

@@ -75,8 +75,7 @@ const router = createBrowserRouter([
             },
             {
                 path: "payment/:id",
-                element: <Payment></Payment>,
-                loader:({params})=>fetch(`http://localhost:5000/user/${params.id}`)
+                element: <Payment></Payment>
             },
 
 

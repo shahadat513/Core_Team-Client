@@ -25,7 +25,7 @@ const Navbar = () => {
 
   return (
     <div>
-      <div className="navbar bg-base-100">
+      <div className="navbar bg-[#3E007C] text-white font-bold">
         <div className="navbar-start">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -121,7 +121,7 @@ const Navbar = () => {
                 <img
                   src={user.photoURL}
                   alt="User"
-                  className="h-10 w-10 cursor-pointer rounded-full border-2 border-gray-300"
+                  className="h-14 w-14 object-cover cursor-pointer rounded-full border-2 border-gray-300"
                   onClick={toggleDropdown}
                 />
               ) : (

@@ -1,8 +1,11 @@
+import Banner from "./Banner";
+import Services from "./Services";
 
 const Home = () => {
     return (
         <div>
-            This is home
+            <Banner></Banner>
+            <Services></Services>
         </div>
     );
 }

@@ -27,6 +27,7 @@ const HR = () => {
         try {
             await axiosSecure.patch(`/user/verify/${id}`, { isVerified: currentStatus });
             refetch();
+        // eslint-disable-next-line no-unused-vars
         } catch (err) {
             Swal.fire("Error", "Failed to update verification status.", "error");
         }

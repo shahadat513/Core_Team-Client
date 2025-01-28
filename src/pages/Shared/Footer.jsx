@@ -37,7 +37,7 @@ const Footer = () => {
                     <a className="link link-hover">Cookie policy</a>
                 </nav>
             </footer>
-            <footer className="footer bg-blue-950  text-white items-center p-4">
+            <footer className="footer bg-[#3E007C]  text-white items-center p-4">
                 <aside className="grid-flow-col items-center">
                     <img
                         className="h-8 w-8"
