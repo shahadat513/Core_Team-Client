@@ -49,6 +49,7 @@ const HR = () => {
         try {
             const response = await axiosSecure.post("/payroll/request", {
                 employeeId: selectedEmployee._id,
+                email:selectedEmployee.email,
                 name: selectedEmployee.name,
                 salary: selectedEmployee.salary,
                 month,

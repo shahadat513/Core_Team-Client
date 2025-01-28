@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import useAxiosSecure from "../../../hook/useAxiosSecure";
 import { useState } from "react";
 import ReactPaginate from "react-paginate";
+import UseAxiosPublic from "../../../hook/useAxiosPublic";
 
 const PaymentHistory = () => {
-    const axiosSecure = useAxiosSecure();
+    const axiosPublic = UseAxiosPublic();
     const [currentPage, setCurrentPage] = useState(0);
     const rowsPerPage = 5;
 
@@ -12,7 +12,7 @@ const PaymentHistory = () => {
     const { data: paymentHistory = [], isLoading, isError, error } = useQuery({
         queryKey: ["paymentHistory"],
         queryFn: async () => {
-            const res = await axiosSecure.get("/payroll");
+            const res = await axiosPublic.get("/payment");
             // Sort data by month and year (earliest first)
             return res.data.sort((a, b) => {
                 const dateA = new Date(`${a.year}-${a.month}-01`);
@@ -21,6 +21,7 @@ const PaymentHistory = () => {
             });
         },
     });
+    console.log(paymentHistory);
 
     const pageCount = Math.ceil(paymentHistory.length / rowsPerPage);
 
@@ -54,10 +55,11 @@ const PaymentHistory = () => {
                     {getCurrentPageRows().map((payment, index) => (
                         <tr key={payment.transactionId}>
                             <td>{index + 1 + currentPage * rowsPerPage}</td>
-                            <td>{payment.month}</td>
-                            <td>{payment.year}</td>
-                            <td>${payment.amount}</td>
-                            <td>{payment.transactionId}</td>
+                            <td>{payment.date}</td>
+                            <td>{payment.date}</td>
+                            <td>${payment.ammount}</td>
+                            <td>{payment.paymentIntentId
+                            }</td>
                         </tr>
                     ))}
                 </tbody>

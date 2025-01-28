@@ -1,8 +1,9 @@
+import EmployeeHome from "../Employee/EmployeeHome";
 
 const HRHome = () => {
     return (
         <div>
-            HR Home
+            <EmployeeHome></EmployeeHome>
         </div>
     );
 }

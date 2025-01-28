@@ -71,11 +71,13 @@ const router = createBrowserRouter([
             },
             {
                 path: "payroll",
-                element: <Payroll></Payroll>
+                element: <Payroll></Payroll>,
+                
             },
             {
                 path: "payment/:id",
-                element: <Payment></Payment>
+                element: <Payment></Payment>,
+                loader: ({ params }) => fetch(`http://localhost:5000/payroll/${params.id}`)
             },
 
 

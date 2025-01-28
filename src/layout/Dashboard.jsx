@@ -4,6 +4,8 @@ import { NavLink, Outlet } from "react-router-dom";
 import UseAdmin from "../hook/useAdmin";
 import UseHR from "../hook/useHR";
 import UseEmployee from "../hook/useEmployee";
+import logo from '../../src/assets/Core-Team_Logo.png'
+
 
 const Dashboard = () => {
     const [isAdmin] = UseAdmin();
@@ -12,8 +14,15 @@ const Dashboard = () => {
 
     return (
         <div className="flex px-10">
-            <div className="w-64 min-h-screen bg-stone-400 ">
-                <ul className="menu p-10">
+            <div className="w-64 min-h-screen bg-orange-700 ">
+                <ul className="menu p-10 ">
+                    <NavLink className="flex flex-col items-center justify-center" to="/"><img
+                        className="h-14 w-14 "
+                        src={logo}
+                        alt="logo" />
+                        <span className="font-extrabold text-2xl text-white">Core Team</span>
+                    </NavLink>
+                    <hr className="my-4" />
                     {
                         isEmployee && <>
                             <li>
@@ -31,7 +40,9 @@ const Dashboard = () => {
                     {
                         isAdmin && <>
                             <li>
-                                <NavLink to="/dashboard/adminHome">Admin Home</NavLink>
+                                <NavLink to="/dashboard/adminHome">
+                                    <FaHome></FaHome>
+                                    Admin Home</NavLink>
                             </li>
                             <li>
                                 <NavLink to="/dashboard/allEmployee">

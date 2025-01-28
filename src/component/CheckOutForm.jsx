@@ -2,20 +2,21 @@ import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { AuthContext } from "../providers/AuthProvider";
+import Swal from "sweetalert2";
 
-const CheckOutForm = ({ payment }) => {
+const CheckOutForm = ({ data }) => {
   const [clientSecret, setClientSecret] = useState("");
   const [processing, setProcessing] = useState(false); // To show processing status
   const [paymentError, setPaymentError] = useState(null); // To handle errors
   const { user } = useContext(AuthContext);
   const stripe = useStripe();
   const elements = useElements();
-  console.log(payment?.salary);
+  // console.log(data);
 
   useEffect(() => {
-    if (payment) {
+    if (data) {
       axios
-        .post("http://localhost:5000/stripe-payment", { price: payment })
+        .post("http://localhost:5000/stripe-payment", { price: data.salary })
         .then((res) => {
           setClientSecret(res.data.clientSecret);
         })
@@ -23,7 +24,7 @@ const CheckOutForm = ({ payment }) => {
           console.error("Error generating client secret:", err);
         });
     }
-  }, [payment]);
+  }, [data, data.salary]);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -75,12 +76,23 @@ const CheckOutForm = ({ payment }) => {
 
         // TODO: Perform any post-payment actions, such as saving payment details to the server
         try {
-          await axios.post("http://localhost:5000/payment-success", {
+          await axios.post("http://localhost:5000/payment", {
             paymentIntentId: paymentIntent.id,
-            paymentDetails: payment,
-            userId: user._id,
+            // paymentDetails: payment,
+            userId: data._id,
+            email:data.email,
+            ammount:data.salary,
+            date:new Date(),
+            status:'succeeded'
           });
           console.log("Payment details saved successfully!");
+          Swal.fire({
+            position: "top-center",
+            icon: "success",
+            title: "Payment Send Successfully",
+            showConfirmButton: false,
+            timer: 1500
+          });
         } catch (err) {
           console.error("Error saving payment details:", err);
         }

@@ -1,12 +1,13 @@
-
-
+import EmployeeHome from '../Employee/EmployeeHome';
 
 const AdminHome = () => {
     return (
         <div>
-            Admin Home
+            <EmployeeHome></EmployeeHome>
         </div>
     );
 }
 
 export default AdminHome;
+
+  
