@@ -3,6 +3,7 @@ import Swal from "sweetalert2";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hook/useAxiosSecure";
 import { TbUserX, TbUserCheck, TbCurrencyDollar } from "react-icons/tb";
+import { FaPlus } from "react-icons/fa";
 
 const AllEmployee = () => {
     const axiosSecure = useAxiosSecure();
@@ -130,9 +131,9 @@ const AllEmployee = () => {
                                     <td>
                                         <button
                                             onClick={() => handleAdjustSalary(item._id, item.salary)}
-                                            className="text-green-600 text-xl"
+                                            className="text-green-600 text-xl flex"
                                         >
-                                            <TbCurrencyDollar />
+                                            <FaPlus /><TbCurrencyDollar />
                                         </button>
                                     </td>
                                     <td>

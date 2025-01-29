@@ -28,55 +28,7 @@ const Payroll = () => {
         } catch (error) {
             Swal.fire("Error", "Failed to update status", "error");
         }
-    };
-
-    // Handle payment
-    // const handlePayment = async (id, month, year) => {
-    //     // Check for duplicate payment
-    //     const isDuplicatePayment = payrolls.some(
-    //         (payroll) =>
-    //             payroll._id !== id &&
-    //             payroll.status === "Paid" &&
-    //             payroll._id.month === month &&
-    //             payroll._id.year === year
-    //     );
-
-    //     if (isDuplicatePayment) {
-    //         Swal.fire("Warning", "Payment for this month and year already exists!", "warning");
-    //         return;
-    //     }
-
-    //     // Confirm payment
-    //     Swal.fire({
-    //         title: "Are you sure?",
-    //         text: `You are about to pay the salary for ${month}/${year}. This action cannot be undone.`,
-    //         icon: "question",
-    //         showCancelButton: true,
-    //         confirmButtonText: "Yes, Pay",
-    //         cancelButtonText: "Cancel",
-    //     }).then(async (result) => {
-    //         if (result.isConfirmed) {
-    //             try {
-    //                 const paymentDate = new Date().toISOString(); // Get current date
-    //                 await axiosSecure.patch(`/payroll/${id}`, {
-    //                     status: "Paid",
-    //                     paymentDate,
-    //                 });
-
-    //                 const updatedPayrolls = payrolls.map((payroll) =>
-    //                     payroll._id === id
-    //                         ? { ...payroll, status: "Paid", paymentDate }
-    //                         : payroll
-    //                 );
-    //                 setPayrolls(updatedPayrolls);
-
-    //                 Swal.fire("Success", "Payment completed successfully!", "success");
-    //             } catch (error) {
-    //                 Swal.fire("Error", "Failed to process payment", "error");
-    //             }
-    //         }
-    //     });
-    // };
+    };    
 
     if (isLoading) return <p>Loading...</p>;
     if (isError) return <p>Error: {error.message}</p>;

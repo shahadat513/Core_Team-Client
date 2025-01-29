@@ -1,13 +1,17 @@
-import { FaDollarSign, FaHome, FaUsers } from "react-icons/fa";
+import { FaDollarSign, FaHistory, FaHome, FaUsers } from "react-icons/fa";
 import { IoMdMail } from "react-icons/io";
 import { NavLink, Outlet } from "react-router-dom";
 import UseAdmin from "../hook/useAdmin";
 import UseHR from "../hook/useHR";
 import UseEmployee from "../hook/useEmployee";
 import logo from '../../src/assets/Core-Team_Logo.png'
+import { GrUserWorker } from "react-icons/gr";
+import { useContext } from "react";
+import { AuthContext } from "../providers/AuthProvider";
 
 
 const Dashboard = () => {
+    const { user } = useContext(AuthContext);
     const [isAdmin] = UseAdmin();
     const [isHR] = UseHR();
     const [isEmployee] = UseEmployee()
@@ -26,14 +30,20 @@ const Dashboard = () => {
                     {
                         isEmployee && <>
                             <li>
-                                <NavLink to="/dashboard/employeeHome">Employee Home</NavLink>
+                                <NavLink to="/dashboard/employeeHome">
+                                <FaHome></FaHome>
+                                Employee Home</NavLink>
                             </li>
                             <li>
-                                <NavLink to="/dashboard/employee">Work Sheet</NavLink>
+                                <NavLink to="/dashboard/employee">
+                                <GrUserWorker />
+                                Work Sheet</NavLink>
                             </li>
 
                             <li>
-                                <NavLink to="/dashboard/paymentHistory">Payment History</NavLink>
+                                <NavLink to={`/dashboard/paymentHistory/shahadatsohel5133@gmail.com`}>
+                                <FaHistory />
+                                Payment History</NavLink>
                             </li>
                         </>
                     }
@@ -59,10 +69,19 @@ const Dashboard = () => {
                     {
                         isHR && <>
                             <li>
-                                <NavLink to="/dashboard/hrHome">HR Home</NavLink>
+                                <NavLink to="/dashboard/hrHome">
+                                <FaHome></FaHome>
+                                HR Home</NavLink>
                             </li>
                             <li>
-                                <NavLink to="/dashboard/employeeList">Employee List</NavLink>
+                                <NavLink to="/dashboard/employeeList">
+                                <FaUsers></FaUsers>
+                                Employee List</NavLink>
+                            </li>
+                            <li>
+                            <NavLink to={`/dashboard/paymentHistory/${user?.email}`}>
+                                <FaHistory />
+                                Payment History</NavLink>
                             </li>
                         </>
                     }

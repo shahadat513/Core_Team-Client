@@ -15,6 +15,7 @@ import EmployeeHome from "../pages/Dashboard/Employee/EmployeeHome";
 import Payment from "../component/Payment";
 import Payroll from "../pages/Dashboard/Admin/PayRoll";
 import PaymentHistory from "../pages/Dashboard/Employee/PaymentHistory";
+import UserDetails from "../pages/Dashboard/HR/UserDetails";
 
 const router = createBrowserRouter([
     {
@@ -55,9 +56,8 @@ const router = createBrowserRouter([
                 element: <Employee></Employee>
             },
             {
-                path: "paymentHistory",
-                element: <PaymentHistory></PaymentHistory>,
-                loader: ({ params }) => fetch(`http://localhost:5000/payment/${params.email}`)
+                path: "paymentHistory/:email",
+                element: <PaymentHistory></PaymentHistory>
             },
 
 
@@ -78,7 +78,7 @@ const router = createBrowserRouter([
             {
                 path: "payment/:id",
                 element: <Payment></Payment>,
-                loader: ({ params }) => fetch(`http://localhost:5000/payroll/${params.id}`)
+                loader: ({ params }) => fetch(`https://core-team-server.vercel.app/payroll/${params.id}`)
             },
 
 
@@ -90,6 +90,10 @@ const router = createBrowserRouter([
             {
                 path: "employeeList",
                 element: <HR></HR>
+            },
+            {
+                path: "userDetails/:slug",
+                element: <UserDetails></UserDetails>
             },
         ]
     }

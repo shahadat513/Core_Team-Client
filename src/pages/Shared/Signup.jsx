@@ -71,7 +71,7 @@ const Signup = () => {
       };
 
       // Save user data to the server
-      const response = await fetch("http://localhost:5000/user", {
+      const response = await fetch("https://core-team-server.vercel.app/user", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -4,11 +4,12 @@ import useAxiosSecure from "../../../hook/useAxiosSecure";
 import { useState } from "react";
 import { TbCheck, TbX } from "react-icons/tb";
 import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
 
 const HR = () => {
     const axiosSecure = useAxiosSecure();
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false); // New state for details modal
+
     const [selectedEmployee, setSelectedEmployee] = useState(null);
     const [month, setMonth] = useState("");
     const [year, setYear] = useState("");
@@ -27,7 +28,7 @@ const HR = () => {
         try {
             await axiosSecure.patch(`/user/verify/${id}`, { isVerified: currentStatus });
             refetch();
-        // eslint-disable-next-line no-unused-vars
+            // eslint-disable-next-line no-unused-vars
         } catch (err) {
             Swal.fire("Error", "Failed to update verification status.", "error");
         }
@@ -49,7 +50,7 @@ const HR = () => {
         try {
             const response = await axiosSecure.post("/payroll/request", {
                 employeeId: selectedEmployee._id,
-                email:selectedEmployee.email,
+                email: selectedEmployee.email,
                 name: selectedEmployee.name,
                 salary: selectedEmployee.salary,
                 month,
@@ -75,16 +76,7 @@ const HR = () => {
         }
     };
 
-    // Handle details button click
-    const handleDetails = (employee) => {
-        setSelectedEmployee(employee);
-        setIsDetailsModalOpen(true);
-    };
 
-    // Close the details modal
-    const closeDetailsModal = () => {
-        setIsDetailsModalOpen(false);
-    };
 
     if (isLoading) return <p>Loading...</p>;
     if (isError) return <p>Error: {error.message}</p>;
@@ -140,12 +132,13 @@ const HR = () => {
                                         </button>
                                     </td>
                                     <td>
-                                        <button
-                                            onClick={() => handleDetails(user)}
-                                            className="btn btn-info"
-                                        >
-                                            Details
-                                        </button>
+                                        <Link to={`/dashboard/userDetails/${user.email}`}>
+                                            <button
+                                                className="btn btn-info"
+                                            >
+                                                Details
+                                            </button>
+                                        </Link>
                                     </td>
                                 </tr>
                             ))}
@@ -188,29 +181,6 @@ const HR = () => {
                                 className="btn btn-error"
                             >
                                 Cancel
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
-
-            {/* DaisyUI Modal for Employee Details */}
-            {isDetailsModalOpen && selectedEmployee && (
-                <div className="modal modal-open">
-                    <div className="modal-box">
-                        <h3 className="font-bold text-lg">Employee Details</h3>
-                        <p>Name: {selectedEmployee.name}</p>
-                        <p>Email: {selectedEmployee.email}</p>
-                        <p>Role: {selectedEmployee.role || "N/A"}</p> {/* Display the role */}
-                        <p>Bank Account: {selectedEmployee.bank_account_no || "N/A"}</p>
-                        <p>Salary: ${selectedEmployee.salary}</p>
-                        <p>Verified: {selectedEmployee.isVerified ? "Yes" : "No"}</p>
-                        <div className="modal-action">
-                            <button
-                                onClick={closeDetailsModal}
-                                className="btn btn-error"
-                            >
-                                Close
                             </button>
                         </div>
                     </div>

@@ -16,7 +16,7 @@ const CheckOutForm = ({ data }) => {
   useEffect(() => {
     if (data) {
       axios
-        .post("http://localhost:5000/stripe-payment", { price: data.salary })
+        .post("https://core-team-server.vercel.app/stripe-payment", { price: data.salary })
         .then((res) => {
           setClientSecret(res.data.clientSecret);
         })
@@ -76,11 +76,12 @@ const CheckOutForm = ({ data }) => {
 
         // TODO: Perform any post-payment actions, such as saving payment details to the server
         try {
-          await axios.post("http://localhost:5000/payment", {
+          await axios.post("https://core-team-server.vercel.app/payment", {
             paymentIntentId: paymentIntent.id,
             // paymentDetails: payment,
             userId: data._id,
             email:data.email,
+            name:data.name,
             ammount:data.salary,
             year:data.year,
             month:data.month,
