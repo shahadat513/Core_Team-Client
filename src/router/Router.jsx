@@ -56,7 +56,8 @@ const router = createBrowserRouter([
             },
             {
                 path: "paymentHistory",
-                element: <PaymentHistory></PaymentHistory>
+                element: <PaymentHistory></PaymentHistory>,
+                loader: ({ params }) => fetch(`http://localhost:5000/payment/${params.email}`)
             },
 
 

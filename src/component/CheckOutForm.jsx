@@ -82,7 +82,8 @@ const CheckOutForm = ({ data }) => {
             userId: data._id,
             email:data.email,
             ammount:data.salary,
-            date:new Date(),
+            year:data.year,
+            month:data.month,
             status:'succeeded'
           });
           console.log("Payment details saved successfully!");

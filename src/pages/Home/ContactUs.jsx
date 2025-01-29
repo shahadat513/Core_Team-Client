@@ -4,7 +4,7 @@ const ContactUs = () => {
       <div className="max-w-3xl mx-auto bg-white shadow-lg rounded-xl p-8">
         <h2 className="text-3xl font-extrabold text-center text-gray-900 mb-6">Contact Us</h2>
         <p className="text-center text-gray-600 mb-12">
-          We're here to help. Reach out to us and we'll get back to you as soon as possible.
+          We`re here to help. Reach out to us and we`ll get back to you as soon as possible.
         </p>
 
         {/* Contact Form */}
