@@ -72,7 +72,7 @@ const Service = () => {
         transition={{ duration: 0.8 }}
       >
         <h3 className="text-2xl font-bold text-gray-800">Optimize Your Workforce Today!</h3>
-        <p className="text-gray-600 mt-2">
+        <p className="text-white mt-2">
           Let us help you manage your employees efficiently.
         </p>
         <Link to="/">

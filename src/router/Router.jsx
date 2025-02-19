@@ -19,12 +19,13 @@ import UserDetails from "../pages/Dashboard/HR/UserDetails";
 import AboutUs from "../pages/Home/AboutUs";
 import Service from "../pages/Home/Service";
 import Overview from "../pages/Dashboard/Overview/Overview";
+import ErrorPage from "../pages/Shared/ErrorPage";
 
 const router = createBrowserRouter([
     {
         path: "/",
         element: <MainLayout></MainLayout>,
-        errorElement: <h2>Page Not Found</h2>,
+        errorElement: <ErrorPage></ErrorPage>,
         children: [
             {
                 path: "/",
