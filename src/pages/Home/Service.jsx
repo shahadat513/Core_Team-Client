@@ -39,7 +39,7 @@ const Service = () => {
         transition={{ duration: 0.8 }}
       >
         <h2 className="text-4xl font-extrabold text-orange-600">Our Services</h2>
-        <p className="mt-4 text-gray-600 text-lg">
+        <p className="mt-4 text-white text-lg">
           Streamline your HR and team management with our powerful tools.
         </p>
       </motion.div>

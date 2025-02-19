@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const ContactUs = () => {
   return (
-    <section className="py-16 bg-gradient-to-r from-[#3E007C] via-[#6A0DAD] to-[#9A4DFF] text-white min-h-screen flex items-center justify-center px-6 py-12">
+    <section className="bg-gradient-to-r from-[#3E007C] via-[#6A0DAD] to-[#9A4DFF] text-white min-h-screen flex items-center justify-center px-6 py-12">
       <div className="max-w-3xl mx-auto bg-white shadow-lg rounded-xl p-8">
         {/* Heading */}
         <motion.h2

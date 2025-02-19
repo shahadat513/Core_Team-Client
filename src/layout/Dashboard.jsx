@@ -29,30 +29,46 @@ const Dashboard = () => {
                     <hr className="my-4" />
                     {
                         isEmployee && <>
-                            <li>
+                            {/* <li>
                                 <NavLink to="/dashboard/employeeHome">
                                 <FaHome></FaHome>
                                 Employee Home</NavLink>
+                            </li> */}
+                            <li>
+                                <NavLink to={`/dashboard/overview`}>
+                                <FaHistory />
+                                OverView</NavLink>
                             </li>
                             <li>
                                 <NavLink to="/dashboard/employee">
                                 <GrUserWorker />
                                 Work Sheet</NavLink>
                             </li>
-
                             <li>
-                                <NavLink to={`/dashboard/paymentHistory/shahadatsohel5133@gmail.com`}>
+                            <NavLink to={`/dashboard/paymentHistory/${user?.email}`}>
                                 <FaHistory />
                                 Payment History</NavLink>
                             </li>
+
+                            {/* <li>
+                                <NavLink to={`/dashboard/paymentHistory/shahadatsohel5133@gmail.com`}>
+                                <FaHistory />
+                                Payment History</NavLink>
+                            </li> */}
+                            
                         </>
                     }
                     {
                         isAdmin && <>
-                            <li>
+                            {/* <li>
                                 <NavLink to="/dashboard/adminHome">
                                     <FaHome></FaHome>
                                     Admin Home</NavLink>
+                            </li> */}
+                            <li>
+                                <NavLink to={`/dashboard/overview`}>
+                                <FaHistory />
+                                OverView</NavLink>
                             </li>
                             <li>
                                 <NavLink to="/dashboard/allEmployee">
@@ -64,14 +80,20 @@ const Dashboard = () => {
                                     <FaDollarSign></FaDollarSign> Pay Roll
                                 </NavLink>
                             </li>
+                            
                         </>
                     }
                     {
                         isHR && <>
-                            <li>
+                            {/* <li>
                                 <NavLink to="/dashboard/hrHome">
                                 <FaHome></FaHome>
                                 HR Home</NavLink>
+                            </li> */}
+                            <li>
+                                <NavLink to={`/dashboard/overview`}>
+                                <FaHistory />
+                                OverView</NavLink>
                             </li>
                             <li>
                                 <NavLink to="/dashboard/employeeList">
@@ -83,6 +105,7 @@ const Dashboard = () => {
                                 <FaHistory />
                                 Payment History</NavLink>
                             </li>
+                            
                         </>
                     }
 

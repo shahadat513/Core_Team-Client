@@ -270,7 +270,7 @@ const Signup = () => {
 
             {/* Submit Button */}
             <div className="form-control mt-6">
-              <button className="btn bg-gradient-to-r from-teal-500 to-blue-500 hover:from-teal-600 hover:to-blue-600 text-white">
+              <button className="btn border-0 bg-gradient-to-r from-[#3E007C] via-[#6A0DAD] to-[#9A4DFF] text-white">
                 Sign Up
               </button>
             </div>

@@ -16,7 +16,7 @@ const Banner = () => {
                         quasi. In deleniti eaque aut repudiandae et a id nisi.
                     </p>
                     <Link to="/dashboard">
-                        <button className="btn btn-primary">Get Started</button>
+                        <button className="btn border-0 bg-orange-600">Get Started</button>
                     </Link>
                 </div>
             </div>

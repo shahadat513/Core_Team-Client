@@ -18,6 +18,7 @@ import PaymentHistory from "../pages/Dashboard/Employee/PaymentHistory";
 import UserDetails from "../pages/Dashboard/HR/UserDetails";
 import AboutUs from "../pages/Home/AboutUs";
 import Service from "../pages/Home/Service";
+import Overview from "../pages/Dashboard/Overview/Overview";
 
 const router = createBrowserRouter([
     {
@@ -56,6 +57,12 @@ const router = createBrowserRouter([
         element: <PrivateRoutes><Dashboard></Dashboard></PrivateRoutes>,
         errorElement: <h2>Page Not Found</h2>,
         children: [
+            
+            {
+                path: "overview",
+                element: <Overview></Overview>
+            },
+
             // Employee
             {
                 path: "employeeHome",

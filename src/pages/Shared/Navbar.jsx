@@ -72,7 +72,7 @@ const Navbar = () => {
                       <a>Service</a>
                     </li>
                   </NavLink>
-                  <NavLink to="/dashboard/adminHome" className={({ isActive }) => (isActive ? "text-orange-600 font-bold" : "text-white")}>
+                  <NavLink to="/dashboard/overview" className={({ isActive }) => (isActive ? "text-orange-600 font-bold" : "text-white")}>
                     <li>
                       <a>Dashboard</a>
                     </li>
@@ -112,7 +112,7 @@ const Navbar = () => {
                     <a>Service</a>
                   </li>
                 </NavLink>
-                <NavLink to="/dashboard/adminHome" className={({ isActive }) => (isActive ? "text-orange-600 font-bold" : "text-white")}>
+                <NavLink to="/dashboard/overview" className={({ isActive }) => (isActive ? "text-orange-600 font-bold" : "text-white")}>
                   <li>
                     <a>Dashboard</a>
                   </li>
@@ -164,10 +164,10 @@ const Navbar = () => {
           ) : (
             <>
               <NavLink to="/login">
-                <a className="btn btn-primary">Log In</a>
+                <a className="btn border-0 bg-gradient-to-r from-[#3E007C] via-[#6A0DAD] to-[#9A4DFF] text-white">Log In</a>
               </NavLink>
               <NavLink to="/signup">
-                <a className="btn btn-secondary">Sign Up</a>
+                <a className="btn border-0 bg-gradient-to-r from-[#3E007C] via-[#6A0DAD] to-[#9A4DFF] text-white">Sign Up</a>
               </NavLink>
             </>
           )}

@@ -76,7 +76,7 @@ const Login = () => {
             <div className="form-control mt-6">
               <button
                 type="submit"
-                className="btn bg-gradient-to-r from-teal-400 via-green-400 to-lime-500 "
+                className="btn border-0 bg-gradient-to-r from-[#3E007C] via-[#6A0DAD] to-[#9A4DFF] text-white "
               >
                 Log In
               </button>
