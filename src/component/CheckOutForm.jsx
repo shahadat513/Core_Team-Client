@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
@@ -24,6 +25,7 @@ const CheckOutForm = ({ data }) => {
           console.error("Error generating client secret:", err);
         });
     }
+  // eslint-disable-next-line react/prop-types
   }, [data, data.salary]);
 
   const handleFormSubmit = async (e) => {
