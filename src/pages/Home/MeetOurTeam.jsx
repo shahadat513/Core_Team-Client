@@ -1,3 +1,10 @@
+import { motion } from "framer-motion";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
+
 const MeetOurTeam = () => {
     const team = [
         {
@@ -12,7 +19,7 @@ const MeetOurTeam = () => {
             name: "Ebrahim Hossain",
             role: "CTO",
             image: "https://i.ibb.co.com/4MF19D0/Fiverr-pp.jpg",
-            bio: "Robert oversees our tech operations, ensuring our platform remains fast, secure, and scalable.",
+            bio: "Ebrahim oversees our tech operations, ensuring our platform remains fast, secure, and scalable.",
         },
         {
             id: 3,
@@ -31,37 +38,91 @@ const MeetOurTeam = () => {
     ];
 
     return (
-        <div className="py-12 bg-gray-50">
+        <motion.div
+            className="py-16 bg-gradient-to-r from-[#3E007C] via-[#6A0DAD] to-[#9A4DFF] text-white"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8 }}
+        >
             <div className="container mx-auto px-4 text-center">
-                <h2 className="text-4xl font-bold text-gray-800 mb-8">
+                {/* Heading */}
+                <motion.h2
+                    className="text-4xl font-bold text-orange-500 mb-8"
+                    initial={{ y: -30, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ duration: 0.6 }}
+                >
                     Meet Our Team
-                </h2>
-                <p className="text-lg text-gray-600 mb-12">
+                </motion.h2>
+
+                {/* Description */}
+                <motion.p
+                    className="text-lg text-white mb-12"
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ duration: 0.6, delay: 0.2 }}
+                >
                     The people behind our platform are dedicated to empowering your organization with the best tools and support.
-                </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {team.map((member) => (
-                        <div
-                            key={member.id}
-                            className="bg-white p-6 hover:bg-[#3E007C] hover:text-white rounded-lg shadow-lg hover:shadow-xl transition-shadow"
-                        >
-                            <img
-                                src={member.image}
-                                alt={member.name}
-                                className="w-24 h-24 object-cover rounded-full mx-auto mb-4 border-4 border-gray-200"
-                            />
-                            <h3 className="text-2xl font-semibold text-gray-800">
-                                {member.name}
-                            </h3>
-                            <p className="text-sm text-gray-500 mb-2">
-                                {member.role}
-                            </p>
-                            <p className="text-gray-600  text-sm">{member.bio}</p>
-                        </div>
+                </motion.p>
+
+                {/* Swiper Carousel */}
+                <Swiper
+                    modules={[Navigation, Pagination, Autoplay]}
+                    navigation
+                    pagination={{ clickable: true }}
+                    autoplay={{ delay: 3000 }}
+                    loop={true} // Enables infinite looping
+                    spaceBetween={30}
+                    slidesPerView={1}
+                    breakpoints={{
+                        640: { slidesPerView: 1 },
+                        768: { slidesPerView: 2 },
+                        1024: { slidesPerView: 3 },
+                    }}
+                    className="w-full max-w-5xl mx-auto"
+                >
+                    {team.map((member, index) => (
+                        <SwiperSlide key={member.id}>
+                            <motion.div
+                                className="bg-white p-6 rounded-lg shadow-lg transition-all flex flex-col items-center justify-between"
+                                style={{ height: "320px", width: "280px" }} // Fixed box size
+                                initial={{ y: 30, opacity: 0 }}
+                                animate={{ y: 0, opacity: 1 }}
+                                transition={{ duration: 0.5, delay: index * 0.2 }}
+                            >
+                                {/* Image */}
+                                <motion.img
+                                    src={member.image}
+                                    alt={member.name}
+                                    className="w-24 h-24 object-cover rounded-full border-4 border-gray-200"
+                                    initial={{ scale: 0.5 }}
+                                    animate={{ scale: 1 }}
+                                    transition={{ duration: 0.5, delay: 0.3 }}
+                                />
+
+                                {/* Name & Role */}
+                                <h3 className="text-xl font-semibold text-gray-800 mt-2">
+                                    {member.name}
+                                </h3>
+                                <p className="text-sm text-gray-500">
+                                    {member.role}
+                                </p>
+
+                                {/* Bio */}
+                                <motion.p
+                                    className="text-gray-600 text-sm text-center px-2"
+                                    initial={{ y: 10, opacity: 0 }}
+                                    animate={{ y: 0, opacity: 1 }}
+                                    transition={{ duration: 0.5, delay: 0.3 }}
+                                >
+                                    {member.bio}
+                                </motion.p>
+                            </motion.div>
+                        </SwiperSlide>
                     ))}
-                </div>
+                </Swiper>
             </div>
-        </div>
+        </motion.div>
     );
 };
 

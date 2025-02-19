@@ -59,12 +59,26 @@ const Navbar = () => {
                   <a>Contact Us</a>
                 </li>
               </NavLink>
-
-              <NavLink to="/dashboard/adminHome" className={({ isActive }) => (isActive ? "text-orange-600 font-bold" : "text-white")}>
+              <NavLink to="/about" className={({ isActive }) => (isActive ? "text-orange-600 font-bold" : "text-white")}>
                 <li>
-                  <a>Dashboard</a>
+                  <a>About Us</a>
                 </li>
               </NavLink>
+
+              {user && (
+                <>
+                  <NavLink to="/service" className={({ isActive }) => (isActive ? "text-orange-600 font-bold" : "text-white")}>
+                    <li>
+                      <a>Service</a>
+                    </li>
+                  </NavLink>
+                  <NavLink to="/dashboard/adminHome" className={({ isActive }) => (isActive ? "text-orange-600 font-bold" : "text-white")}>
+                    <li>
+                      <a>Dashboard</a>
+                    </li>
+                  </NavLink>
+                </>
+              )}
             </ul>
           </div>
           <NavLink to="/" className="btn btn-ghost text-xl">
@@ -86,11 +100,25 @@ const Navbar = () => {
                 <a>Contact Us</a>
               </li>
             </NavLink>
-            <NavLink to="/dashboard/adminHome" className={({ isActive }) => (isActive ? "text-orange-600 font-bold" : "text-white")}>
+            <NavLink to="/about" className={({ isActive }) => (isActive ? "text-orange-600 font-bold" : "text-white")}>
               <li>
-                <a>Dashboard</a>
+                <a>About Us</a>
               </li>
             </NavLink>
+            {user && (
+              <>
+                <NavLink to="/service" className={({ isActive }) => (isActive ? "text-orange-600 font-bold" : "text-white")}>
+                  <li>
+                    <a>Service</a>
+                  </li>
+                </NavLink>
+                <NavLink to="/dashboard/adminHome" className={({ isActive }) => (isActive ? "text-orange-600 font-bold" : "text-white")}>
+                  <li>
+                    <a>Dashboard</a>
+                  </li>
+                </NavLink>
+              </>
+            )}
 
           </ul>
         </div>

@@ -1,8 +1,9 @@
+import { motion } from "framer-motion";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { Navigation, Pagination } from "swiper/modules";
+import "swiper/css/autoplay";
+import { Pagination, Autoplay } from "swiper/modules";
 
 const Testimonials = () => {
     const testimonials = [
@@ -33,44 +34,83 @@ const Testimonials = () => {
     ];
 
     return (
-        <div className="py-12 bg-gray-200">
-            <div className="container mx-auto px-4 text-center">
-                <h1 className="text-4xl font-bold text-gray-800 mb-8">
+        <motion.div
+            className="py-16 bg-gradient-to-r from-[#3E007C] via-[#6A0DAD] to-[#9A4DFF] text-white"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8 }}
+        >
+            <div className="container mx-auto px-6 text-center text-orange-600 max-w-4xl">
+                {/* Section Heading */}
+                <motion.h2
+                    className="text-4xl font-bold mb-6"
+                    initial={{ y: -20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ duration: 0.6 }}
+                >
                     What Our Clients Say
-                </h1>
-                <p className="text-lg text-gray-600 mb-12">
-                    Hear from our satisfied clients and see how we’ve transformed their businesses.
-                </p>
+                </motion.h2>
 
+                {/* Description */}
+                <motion.p
+                    className="text-lg text-gray-200 mb-10"
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ duration: 0.6, delay: 0.2 }}
+                >
+                    Hear from our satisfied clients and see how we’ve transformed their businesses.
+                </motion.p>
+
+                {/* Swiper Carousel */}
                 <Swiper
-                    modules={[Navigation, Pagination]}
-                    navigation
+                    modules={[Pagination, Autoplay]}
                     pagination={{ clickable: true }}
+                    autoplay={{ delay: 4000, disableOnInteraction: false }}
                     spaceBetween={30}
                     slidesPerView={1}
-                    className="w-full max-w-4xl mx-auto"
+                    className="w-full"
                 >
-                    {testimonials.map((testimonial) => (
+                    {testimonials.map((testimonial, index) => (
                         <SwiperSlide key={testimonial.id}>
-                            <div className="bg-orange-400 p-8 rounded-lg hover:bg-[#3E007C] shadow-lg">
-                                <img
+                            <motion.div
+                                className="bg-white p-8 rounded-xl shadow-md border border-gray-200 max-w-3xl mx-auto text-gray-800"
+                                initial={{ opacity: 0, scale: 0.95 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ duration: 0.5, delay: index * 0.2 }}
+                            >
+                                {/* Client Image */}
+                                <motion.img
                                     src={testimonial.image}
                                     alt={testimonial.name}
-                                    className="w-20 h-20 rounded-full mx-auto mb-4 border-4 border-gray-200"
+                                    className="w-20 h-20 rounded-full mx-auto mb-4 border-4 border-gray-300"
+                                    initial={{ scale: 0.8 }}
+                                    animate={{ scale: 1 }}
+                                    transition={{ duration: 0.5 }}
                                 />
-                                <h3 className="text-2xl font-semibold text-gray-800">
+
+                                {/* Client Name & Role */}
+                                <h3 className="text-2xl font-semibold">
                                     {testimonial.name}
                                 </h3>
-                                <p className="text-gray-600 italic mb-4">
+                                <p className="text-gray-500 text-sm mb-4">
                                     {testimonial.role}
                                 </p>
-                                <p className="text-gray-600">{testimonial.feedback}</p>
-                            </div>
+
+                                {/* Client Feedback */}
+                                <motion.p
+                                    className="text-gray-700 text-lg leading-relaxed"
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.5, delay: 0.3 }}
+                                >
+                                    "{testimonial.feedback}"
+                                </motion.p>
+                            </motion.div>
                         </SwiperSlide>
                     ))}
                 </Swiper>
             </div>
-        </div>
+        </motion.div>
     );
 };
 

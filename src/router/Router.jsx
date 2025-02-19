@@ -16,6 +16,8 @@ import Payment from "../component/Payment";
 import Payroll from "../pages/Dashboard/Admin/PayRoll";
 import PaymentHistory from "../pages/Dashboard/Employee/PaymentHistory";
 import UserDetails from "../pages/Dashboard/HR/UserDetails";
+import AboutUs from "../pages/Home/AboutUs";
+import Service from "../pages/Home/Service";
 
 const router = createBrowserRouter([
     {
@@ -38,6 +40,14 @@ const router = createBrowserRouter([
             {
                 path: "/contact",
                 element: <ContactUs></ContactUs>
+            },
+            {
+                path: "/service",
+                element: <Service></Service>
+            },
+            {
+                path: "/about",
+                element: <AboutUs></AboutUs>
             }
         ]
     },

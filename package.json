@@ -17,6 +17,7 @@
     "antd": "^5.23.2",
     "axios": "^1.7.9",
     "firebase": "^11.2.0",
+    "framer-motion": "^12.4.4",
     "localforage": "^1.10.0",
     "match-sorter": "^8.0.0",
     "react": "^18.3.1",
